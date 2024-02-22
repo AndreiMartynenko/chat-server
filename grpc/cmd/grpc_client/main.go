@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/AndreiMartynenko/chat-server/pkg/chat_v1"
+	"github.com/AndreiMartynenko/chat-server/grpc/pkg/chat_v1"
 	"github.com/fatih/color"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"

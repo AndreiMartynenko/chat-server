@@ -1,4 +1,4 @@
-module github.com/AndreiMartynenko/chat-server
+module github.com/AndreiMartynenko/chat-server/grpc
 
 go 1.20
 
