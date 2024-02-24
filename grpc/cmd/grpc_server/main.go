@@ -6,7 +6,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/AndreiMartynenko/chat-server/grpc/pkg/chat_v1"
+	"github.com/AndreiMartynenko/chat-server/pkg/chat_v1"
 	"github.com/brianvoe/gofakeit"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
