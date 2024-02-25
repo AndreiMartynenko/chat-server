@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	dbDSN = "host=localhost port=54321 dbname=chat user=chat-user password=chat-password sslmode=disable"
+	dbDSN = "host=localhost port=54321 dbname=chats user=chat-user password=chat-password sslmode=disable"
 )
 
 func main() {
@@ -25,7 +25,7 @@ func main() {
 	defer con.Close(ctx)
 
 	// Making a request to insert a record into the chat table
-	res, err := con.Exec(ctx, "INSERT INTO chat (title, body) VALUES ($1, $2)", gofakeit.City(), gofakeit.Address().Street)
+	res, err := con.Exec(ctx, "INSERT INTO chats (title, body) VALUES ($1, $2)", gofakeit.City(), gofakeit.Address().Street)
 	if err != nil {
 		log.Fatalf("failed to insert chat: %v", err)
 	}
