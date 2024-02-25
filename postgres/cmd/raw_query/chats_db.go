@@ -1,26 +1,5 @@
 package main
 
-//chats table
-// res, err := con.Exec(ctx, "INSERT INTO chats (title) VALUES ($1)", gofakeit.City())
-// if err != nil {
-// 	log.Fatalf("failed to insert data: %v", err)
-// }
-// log.Printf("inserted %d rows", res.RowsAffected())
-
-//user_chats table
-// res, err = con.Exec(ctx, "INSERT INTO user_chats (user_id, chat_id) VALUES ($1, $2)", userID, chatID)
-// if err != nil {
-// 	log.Fatalf("failed to insert data into user_chats: %v", err)
-// }
-// log.Printf("inserted %d rows into user_chats", res.RowsAffected())
-
-//chats_messages table
-// res, err = con.Exec(ctx, "INSERT INTO chats_messages (chat_id, user_id, text, timestamp) VALUES ($1, $2, $3, $4)", chatID, userID, messageText, timestamp)
-// if err != nil {
-// 	log.Fatalf("failed to insert data into chats_messages: %v", err)
-// }
-// log.Printf("inserted %d rows into chats_messages", res.RowsAffected())
-
 import (
 	"context"
 	"database/sql"
@@ -36,9 +15,9 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-type Chat struct {
-	id int
-}
+// type Chat struct {
+// 	id int
+// }
 
 const (
 	dbDSN     = "host=localhost port=54321 dbname=chats user=chat-user password=chat-password sslmode=disable"
@@ -46,7 +25,7 @@ const (
 	dbTimeout = time.Second * 3
 )
 
-var counts int64
+//var counts int64
 
 type server struct {
 	db *sql.DB
@@ -87,8 +66,8 @@ func (srv *server) Create(ctx context.Context, req *chat_v1.CreateNewChatRequest
 	//ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	ctx, cancel := context.WithTimeout(ctx, dbTimeout)
 	defer cancel()
-	//chats table
 
+	//chats table
 	row := srv.db.QueryRowContext(ctx, "INSERT INTO chats (title) VALUES ($1)")
 	var id int64
 	err := row.Scan(&id)
@@ -99,11 +78,6 @@ func (srv *server) Create(ctx context.Context, req *chat_v1.CreateNewChatRequest
 
 	log.Printf("Created New Chat with id: %d", id)
 
-	//For testing purposes
-	// response := &chat_v1.CreateNewChatResponse{
-	// 	Id: 1345,
-	// }
-	// return response, nil
 	return &chat_v1.CreateNewChatResponse{Id: id}, nil
 
 }
