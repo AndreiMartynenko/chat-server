@@ -1,19 +1,10 @@
 package main
 
-import (
-	"context"
-	"database/sql"
-	"log"
-	"time"
+// const (
+// 	dbDSN = "host=localhost port=54321 dbname=chats user=chat-user password=chat-password sslmode=disable"
+// )
 
-	"github.com/brianvoe/gofakeit"
-	"github.com/jackc/pgx/v4"
-)
-
-const (
-	dbDSN = "host=localhost port=54321 dbname=chats user=chat-user password=chat-password sslmode=disable"
-)
-
+/*
 func main() {
 	ctx := context.Background()
 
@@ -24,7 +15,7 @@ func main() {
 	}
 	defer con.Close(ctx)
 
-	// Making a request to insert a record into the chat table
+	// Making a request to insert a record into the chats table
 	res, err := con.Exec(ctx, "INSERT INTO chats (title, body) VALUES ($1, $2)", gofakeit.City(), gofakeit.Address().Street)
 	if err != nil {
 		log.Fatalf("failed to insert chat: %v", err)
@@ -32,8 +23,8 @@ func main() {
 
 	log.Printf("inserted %d rows", res.RowsAffected())
 
-	// We make a request to select records from the chat table
-	rows, err := con.Query(ctx, "SELECT id, title, body, created_at, updated_at FROM chat")
+	// We make a request to select records from the chats table
+	rows, err := con.Query(ctx, "SELECT id, title, created_at, updated_at FROM chats")
 	if err != nil {
 		log.Fatalf("failed to select chat_users: %v", err)
 	}
@@ -47,9 +38,11 @@ func main() {
 
 		err = rows.Scan(&id, &title, &body, &createdAt, &updatedAt)
 		if err != nil {
-			log.Fatalf("failed to scan chat: %v", err)
+			log.Fatalf("failed to scan chats: %v", err)
 		}
 
 		log.Printf("id: %d, title: %s, body: %s, created_at: %v, updated_at: %v\n", id, title, body, createdAt, updatedAt)
 	}
 }
+
+*/
