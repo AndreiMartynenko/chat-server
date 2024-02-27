@@ -3,7 +3,6 @@ module github.com/AndreiMartynenko/chat-server
 go 1.21.7
 
 require (
-	github.com/brianvoe/gofakeit v3.18.0+incompatible
 	github.com/fatih/color v1.16.0
 	github.com/golang/protobuf v1.5.3
 	github.com/jackc/pgx/v5 v5.5.3
