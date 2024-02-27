@@ -19,13 +19,13 @@ generate:
 	make generate-chat-api
 
 generate-chat-api:
-	mkdir -p pkg/chat_v1
-	protoc --proto_path api/chat_v1 \
-	--go_out=pkg/chat_v1 --go_opt=paths=source_relative \
+	mkdir -p grpc/pkg/chat_v1
+	protoc --proto_path grpc/api/chat_v1 \
+	--go_out=grpc/pkg/chat_v1 --go_opt=paths=source_relative \
 	--plugin=protoc-gen-go=bin/protoc-gen-go \
-	--go-grpc_out=pkg/chat_v1 --go-grpc_opt=paths=source_relative \
+	--go-grpc_out=grpc/pkg/chat_v1 --go-grpc_opt=paths=source_relative \
 	--plugin=protoc-gen-go-grpc=bin/protoc-gen-go-grpc \
-	api/chat_v1/chat_api.proto
+	grpc/api/chat_v1/chat_api.proto
 
 build:
 	GOOS=linux GOARCH=amd64 go build -o service_linux cmd/grpc_server/main.go
