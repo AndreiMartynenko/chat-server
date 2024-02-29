@@ -29,7 +29,7 @@ type server struct {
 }
 
 func main() {
-	log.Println("Starting authentication service")
+	log.Println("Starting the chat service")
 
 	ctx := context.Background()
 
@@ -75,13 +75,7 @@ func (srv *server) Create(ctx context.Context, req *chat_v1.CreateNewChatRequest
 	return &chat_v1.CreateNewChatResponse{Id: id}, nil
 }
 
-// func (srv *server) Delete(ctx context.Context, req *chat_v1.DeleteChatRequest) (*chat_v1.DeleteChatResponse, error) {
-// 	log.Printf("Delete Chat request received: %v", req)
-
-// 	return &chat_v1.DeleteChatResponse{DeleteResponse: &empty.Empty{}}, nil
-
-// }
-
+// Delete
 func (srv *server) Delete(ctx context.Context, req *chat_v1.DeleteChatRequest) (*chat_v1.DeleteChatResponse, error) {
 	ctx, cancel := context.WithTimeout(ctx, dbTimeout)
 	defer cancel()
@@ -103,6 +97,7 @@ func (srv *server) Delete(ctx context.Context, req *chat_v1.DeleteChatRequest) (
 // 	return &chat_v1.SendMessageResponse{SendMessageResponse: &empty.Empty{}}, nil
 // }
 
+// GetUserID
 func (srv *server) getUserID(username string) (int64, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
@@ -119,6 +114,7 @@ func (srv *server) getUserID(username string) (int64, error) {
 	return userID, nil
 }
 
+// SendMessage
 func (srv *server) SendMessage(ctx context.Context, req *chat_v1.SendMessageRequest) (*chat_v1.SendMessageResponse, error) {
 	ctx, cancel := context.WithTimeout(ctx, dbTimeout)
 	defer cancel()
