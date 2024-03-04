@@ -17,6 +17,9 @@ const (
 
 var usernames = []string{"Bill", "Jack"}
 
+
+
+
 func main() {
 	conn, err := grpc.Dial(address, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
@@ -37,3 +40,5 @@ func main() {
 	log.Printf(color.RedString("chat info: \n"), color.GreenString("%+v", r.Id))
 
 }
+
+
