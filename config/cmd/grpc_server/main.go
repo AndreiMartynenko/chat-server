@@ -1,18 +1,24 @@
 package main
 
-/*
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log"
 	"net"
 
-	"github.com/AndreiMartynenko/chat-server/grpc/pkg/chat_v1"
+	"github.com/AndreiMartynenko/chat-server/config/pkg/chat_v1"
 	"github.com/brianvoe/gofakeit"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
+
+var configPath string
+
+func init() {
+	flag.StringVar(&configPath, "config-path", ".env", "path to config file")
+}
 
 const grpcPort = 50051
 
@@ -55,13 +61,12 @@ func main() {
 
 	srv := grpc.NewServer()
 
-
-		// Reflection in this context allows gRPC clients to query information
-		// about the gRPC server's services dynamically at runtime.
-		// It enables tools like gRPC's command-line interface (grpc_cli)
-		// and gRPC's web-based GUI (grpcui) to inspect the server's
-		// services and make RPC calls without needing to know
-		// the specifics of each service beforehand.
+	// Reflection in this context allows gRPC clients to query information
+	// about the gRPC server's services dynamically at runtime.
+	// It enables tools like gRPC's command-line interface (grpc_cli)
+	// and gRPC's web-based GUI (grpcui) to inspect the server's
+	// services and make RPC calls without needing to know
+	// the specifics of each service beforehand.
 
 	reflection.Register(srv)
 	chat_v1.RegisterChatAPIServicesServer(srv, &server{})
@@ -73,5 +78,3 @@ func main() {
 	}
 
 }
-
-*/
