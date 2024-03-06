@@ -3,17 +3,15 @@ package main
 import (
 	"context"
 	"flag"
-	"fmt"
-	"github.com/jackc/pgx/v5/pgxpool"
-	"log"
-	"net"
-
+	"github.com/AndreiMartynenko/chat-server/config/internal/config"
 	"github.com/AndreiMartynenko/chat-server/config/pkg/chat_v1"
 	sq "github.com/Masterminds/squirrel"
 	"github.com/brianvoe/gofakeit"
 	"github.com/golang/protobuf/ptypes/empty"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"log"
 )
 
 var configPath string
@@ -40,7 +38,6 @@ func (srv *server) Create(ctx context.Context, req *chat_v1.CreateNewChatRequest
 		Suffix("RETURNING id")
 
 	query, args, err := builderInsert.ToSql()
-
 	if err != nil {
 		log.Fatalf("failed to build query: %v", err)
 	}
@@ -73,13 +70,29 @@ func (srv *server) SendMessage(ctx context.Context, req *chat_v1.SendMessageRequ
 }
 
 func main() {
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", grpcPort))
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
+
+	//lis, err := net.Listen("tcp", fmt.Sprintf(":%d", grpcPort))
+	//if err != nil {
+	//	log.Fatalf("failed to listen: %v", err)
+	//}
 
 	flag.Parse()
 	ctx := context.Background()
+
+	//reading our env
+	err := config.Load(configPath)
+	if err != nil {
+		log.Fatalf("failed to load config: %v", err)
+	}
+	grpcConfig, err := config.NewGRPCConfig()
+	if err != nil {
+		log.Fatalf("failed to get grpc config: %v", err)
+	}
+
+	pgConfig, err := config.NewPFConfig()
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
 
 	srv := grpc.NewServer()
 
