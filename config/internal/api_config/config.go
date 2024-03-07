@@ -1,4 +1,4 @@
-package config
+package api_config
 
 import (
 	"github.com/joho/godotenv"

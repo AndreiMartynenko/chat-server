@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/AndreiMartynenko/chat-server/config/internal/config"
+	"github.com/AndreiMartynenko/chat-server/config/internal/api_config"
 	"github.com/AndreiMartynenko/chat-server/config/pkg/chat_v1"
 	sq "github.com/Masterminds/squirrel"
 	"github.com/brianvoe/gofakeit"
@@ -17,7 +17,7 @@ import (
 var configPath string
 
 func init() {
-	flag.StringVar(&configPath, "config-path", ".env", "path to config file")
+	flag.StringVar(&configPath, "api_config-path", ".env", "path to api_config file")
 }
 
 //const grpcPort = 50051
@@ -80,16 +80,16 @@ func main() {
 	ctx := context.Background()
 
 	//reading our env
-	err := config.Load(configPath)
+	err := api_config.Load(configPath)
 	if err != nil {
-		log.Fatalf("failed to load config: %v", err)
+		log.Fatalf("failed to load api_config: %v", err)
 	}
-	grpcConfig, err := config.NewGRPCConfig()
+	grpcConfig, err := api_config.NewGRPCConfig()
 	if err != nil {
-		log.Fatalf("failed to get grpc config: %v", err)
+		log.Fatalf("failed to get grpc api_config: %v", err)
 	}
 
-	pgConfig, err := config.NewPFConfig()
+	pgConfig, err := api_config.NewPFConfig()
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
