@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"github.com/AndreiMartynenko/chat-server/config/internal/api_config"
+	main2 "github.com/AndreiMartynenko/chat-server/config/internal/app/api_config"
 	"github.com/AndreiMartynenko/chat-server/config/pkg/chat_v1"
 	sq "github.com/Masterminds/squirrel"
 	"github.com/brianvoe/gofakeit"
@@ -80,7 +81,7 @@ func main() {
 	ctx := context.Background()
 
 	//reading our env
-	err := api_config.Load(configPath)
+	err := main2.Load(configPath)
 	if err != nil {
 		log.Fatalf("failed to load api_config: %v", err)
 	}

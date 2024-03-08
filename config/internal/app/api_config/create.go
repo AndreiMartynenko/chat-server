@@ -1,12 +1,14 @@
 package api_config
 
 import (
+	desc "github.com/AndreiMartynenko/chat-server/pkg/chat_v1"
 	sq "github.com/Masterminds/squirrel"
 	"github.com/brianvoe/gofakeit"
+	"log"
 )
 
 // Create
-func (srv *server) Create(ctx context.Context, req *chat_v1.CreateNewChatRequest) (*chat_v1.CreateNewChatResponse, error) {
+func (srv *server) Create(ctx context.Context, req *desc.CreateNewChatRequest) (*desc.CreateNewChatResponse, error) {
 	log.Printf("Create New Chat request received: %v", req)
 
 	//For testing purposes
