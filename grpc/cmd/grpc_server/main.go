@@ -3,16 +3,16 @@ package main
 import (
 	"context"
 	"database/sql"
+	"flag"
 	"fmt"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 	"log"
 	"net"
 	"time"
 
 	"github.com/AndreiMartynenko/chat-server/grpc/pkg/chat_v1"
 	"github.com/golang/protobuf/ptypes/empty"
-	"github.com/jackc/pgx/v5"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 )
 
 const (
@@ -21,13 +21,72 @@ const (
 	dbTimeout = time.Second * 3
 )
 
-//var counts int64
+// var counts int64
+var configPath string
 
-type server struct {
-	db *sql.DB
-	chat_v1.UnimplementedChatAPIServicesServer
+func init() {
+	flag.StringVar(&configPath, "config-path", ".env", "path to config file")
 }
 
+func main() {
+	flag.Parse()
+	ctx := context.Background()
+
+	fmt.Println(configPath)
+	err := config.Load(configPath)
+	if err != nil {
+		log.Fatalf("failed to load config: %v", err)
+	}
+
+	//grpcConfig
+	grpcConfig, err := env.NewGRPCConfig()
+	if err != nil {
+		log.Fatalf("failed to get grpc config: %s", err.Error())
+	}
+
+	//pgConfig
+	pgConfig, err := env.NewPGConfig()
+	if err != nil {
+		log.Fatalf("failed to get pg config: %s ", err.Error())
+	}
+
+	list, err := net.Listen("tcp", grpcConfig.Address())
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+
+	pool, err := pgx.Connect(ctx, pgConfig.DSN())
+	if err != nil {
+		log.Fatalf("failed to connect to db: %s", err.Error())
+	}
+
+	defer func() {
+		err = pool.Close(ctx)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
+
+	s := grpc.NewServer()
+	reflection.Register(s)
+	chat_v1.RegisterChatAPIServicesServer(
+		s,
+		chatServerV1.NewChatServer(pool, sq.StatementBuilder.PlaceholderFormat(sq.Dollar)),
+	)
+
+	log.Printf("server listerning at %v", list.Addr())
+
+	if err = s.Serve(list); err != nil {
+		log.Fatalf("failed to serv %v", err)
+	}
+}
+
+//type server struct {
+//	db *sql.DB
+//	chat_v1.UnimplementedChatAPIServicesServer
+//}
+
+/*
 func main() {
 	log.Println("Starting the chat service")
 
@@ -57,6 +116,7 @@ func main() {
 	}
 
 }
+*/
 
 func (srv *server) Create(ctx context.Context, req *chat_v1.CreateNewChatRequest) (*chat_v1.CreateNewChatResponse, error) {
 	ctx, cancel := context.WithTimeout(ctx, dbTimeout)
