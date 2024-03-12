@@ -1,6 +1,8 @@
 package config
 
-import "github.com/joho/godotenv"
+import (
+	"github.com/joho/godotenv"
+)
 
 //Load env file
 
@@ -11,4 +13,14 @@ func Load(path string) error {
 	}
 
 	return nil
+}
+
+// GRPCConfig
+type GRPCConfig interface {
+	Address() string
+}
+
+// PGConfig
+type PGConfig interface {
+	DSN() string
 }
