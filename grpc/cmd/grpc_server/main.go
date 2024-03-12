@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"flag"
 	"fmt"
+	"github.com/jackc/pgx/v5"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"
@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/AndreiMartynenko/chat-server/grpc/pkg/chat_v1"
-	"github.com/golang/protobuf/ptypes/empty"
 )
 
 const (
@@ -118,6 +117,7 @@ func main() {
 }
 */
 
+/*
 func (srv *server) Create(ctx context.Context, req *chat_v1.CreateNewChatRequest) (*chat_v1.CreateNewChatResponse, error) {
 	ctx, cancel := context.WithTimeout(ctx, dbTimeout)
 	defer cancel()
@@ -219,3 +219,5 @@ func (srv *server) SendMessage(ctx context.Context, req *chat_v1.SendMessageRequ
 
 // 	return db, nil
 // }
+
+*/
