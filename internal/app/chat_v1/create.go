@@ -1,7 +1,7 @@
 package chat_v1
 
 import (
-	desc "github.com/AndreiMartynenko/chat-server/pkg/chat_v1"
+	"github.com/AndreiMartynenko/chat-server/pkg/chat_v1"
 	"github.com/brianvoe/gofakeit"
 	"log"
 )
@@ -12,7 +12,7 @@ import (
 //}
 
 // Create new chat
-func (srv *ChatAPIServices) Create(ctx context.Context, req *desc.CreateNewChatRequest) (*desc.CreateNewChatResponse, error) {
+func (s *ChatAPIServices) Create(ctx context.Context, req *chat_v1.CreateNewChatRequest) (*chat_v1.CreateNewChatResponse, error) {
 	log.Printf("Create New Chat request received: %v", req)
 
 	//For testing purposes
