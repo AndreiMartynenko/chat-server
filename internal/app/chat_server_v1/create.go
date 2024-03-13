@@ -1,19 +1,11 @@
 package chat_server_v1
 
 import (
+	desc "github.com/AndreiMartynenko/chat-server/pkg/chat_v1"
+	sq "github.com/Masterminds/squirrel"
 	"github.com/brianvoe/gofakeit"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"log"
-)
-
-package api_config
-
-import (
-desc "github.com/AndreiMartynenko/chat-server/pkg/chat_v1"
-sq "github.com/Masterminds/squirrel"
-"github.com/brianvoe/gofakeit"
-"github.com/jackc/pgx/v5/pgxpool"
-"log"
 )
 
 type server struct {
@@ -50,4 +42,3 @@ func (srv *server) Create(ctx context.Context, req *desc.CreateNewChatRequest) (
 	}, nil
 
 }
-
