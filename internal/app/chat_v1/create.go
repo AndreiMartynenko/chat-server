@@ -1,20 +1,18 @@
-package chat_server_v1
+package chat_v1
 
 import (
 	desc "github.com/AndreiMartynenko/chat-server/pkg/chat_v1"
-	sq "github.com/Masterminds/squirrel"
 	"github.com/brianvoe/gofakeit"
-	"github.com/jackc/pgx/v5/pgxpool"
 	"log"
 )
 
-type server struct {
-	chat_v1.UnimplementedChatAPIServicesServer
-	pool *pgxpool.Pool
-}
+//type server struct {
+//	chat_v1.UnimplementedChatAPIServicesServer
+//	pool *pgxpool.Pool
+//}
 
-// Create
-func (srv *server) Create(ctx context.Context, req *desc.CreateNewChatRequest) (*desc.CreateNewChatResponse, error) {
+// Create new chat
+func (srv *ChatAPIServices) Create(ctx context.Context, req *desc.CreateNewChatRequest) (*desc.CreateNewChatResponse, error) {
 	log.Printf("Create New Chat request received: %v", req)
 
 	//For testing purposes
