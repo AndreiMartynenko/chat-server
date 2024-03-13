@@ -25,10 +25,6 @@ message DeleteChatRequest {
     int64 id = 1;
 }
 
-message DeleteChatResponse {
-  google.protobuf.Empty delete_response = 1;
-}
-
 message SendMessageRequest {
     int64 chatId = 1;
     string from = 2;
