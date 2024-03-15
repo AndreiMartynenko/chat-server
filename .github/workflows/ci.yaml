@@ -7,7 +7,7 @@ on:
     branches: [ main, master ]
 
 env:
-  REGISTRY: "cr.selcloud.ru/andy"
+  REGISTRY: "cr.selcloud.ru/andyregistry"
   IMAGE_NAME: "crud-server"
   CONTAINER_NAME: "crud-server-container"
 
@@ -46,15 +46,15 @@ jobs:
           script: |
             # Set up variables
             TAG_NAME=$(echo $GITHUB_SHA | head -c7)
-            
+
             # Login into Selectel Registry
             docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }} $REGISTRY
-            
+
             # Stop running container
             docker stop $CONTAINER_NAME
-            
+
             # Remove old container
             docker rm $CONTAINER_NAME
-            
+
             # Run a new container from a new image
             docker run -d -p 50051:50051 --name $CONTAINER_NAME -t $REGISTRY/$IMAGE_NAME:$TAG_NAME

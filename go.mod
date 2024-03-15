@@ -1,6 +1,6 @@
 module github.com/AndreiMartynenko/chat-server
 
-go 1.21.7
+go 1.22.0
 
 require (
 	github.com/brianvoe/gofakeit v3.18.0+incompatible
