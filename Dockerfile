@@ -2,11 +2,11 @@
 FROM golang:1.22-alpine AS builder
 
 # . means current repo
-COPY .. /github.com/AndreiMartynenko/chat-server/source/
+COPY . /github.com/AndreiMartynenko/chat-server/source/
 WORKDIR /github.com/AndreiMartynenko/chat-server/source/
 
 RUN go mod download
-RUN go build -o ./bin/crud_server grpc/cmd/grpc_server/main.go
+RUN go build -o ./bin/crud_server /cmd/grpc_server/main.go
 
 # 2 step
 FROM alpine:latest
