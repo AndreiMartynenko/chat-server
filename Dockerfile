@@ -2,7 +2,7 @@
 FROM golang:1.22-alpine AS builder
 
 # . means current repo
-COPY . /github.com/AndreiMartynenko/chat-server/source/
+COPY .. /github.com/AndreiMartynenko/chat-server/source/
 WORKDIR /github.com/AndreiMartynenko/chat-server/source/
 
 RUN go mod download
