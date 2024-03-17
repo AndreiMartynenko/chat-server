@@ -20,13 +20,15 @@ func main() {
 
 	defer con.Close(ctx)
 
+	//Generate a random chat id
+	randomID := gofakeit.UUID()
 	// Make a query to the database
-	res, err := con.Exec(ctx, "INSERT INTO chats (id) VALUES ($1)", gofakeit.UUID())
+	res, err := con.Exec(ctx, "INSERT INTO chats (id) VALUES ($1)", randomID)
 	if err != nil {
-		log.Fatalf("failed to insert chat : %v", err)
+		log.Fatalf("failed to insert chat id : %v", err)
 	}
 
-	log.Printf("inserted chat with id: %s", res.RowsAffected())
+	log.Printf("inserted chat with id: %d", res.RowsAffected())
 
 	// Make a query to the database to get data from the chat
 
