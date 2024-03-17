@@ -2,7 +2,6 @@ package main
 
 import "log"
 import "context"
-import "github.com/brianvoe/gofakeit"
 import "github.com/jackc/pgx/v4"
 
 const (
@@ -21,7 +20,7 @@ func main() {
 	defer con.Close(ctx)
 
 	//Generate a random chat id
-	randomID := gofakeit.UUID()
+	randomID := uuid.New()
 	// Make a query to the database
 	res, err := con.Exec(ctx, "INSERT INTO chats (id) VALUES ($1)", randomID)
 	if err != nil {
