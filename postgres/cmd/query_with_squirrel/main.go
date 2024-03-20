@@ -12,9 +12,9 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
-const (
-	dbDSN = "host=localhost port=54321 dbname=chats user=chat-user password=chat-password sslmode=disable"
-)
+//const (
+//	dbDSN = "host=localhost port=54321 dbname=chats user=chat-user password=chat-password sslmode=disable"
+//)
 
 func main() {
 	ctx := context.Background()
@@ -54,7 +54,13 @@ func main() {
 	log.Printf("inserted chat with id: %d", chatID)
 
 	// Make a query to the database to get data from the chats
-	builderSelect := sq.Select("id").
+	//builderSelect := sq.Select("id").
+	//	From("chats").
+	//	PlaceholderFormat(sq.Dollar).
+	//	OrderBy("id ASC").
+	//	Limit(10)
+
+	builderSelect := sq.Select("id", "created_at", "updated_at").
 		From("chats").
 		PlaceholderFormat(sq.Dollar).
 		OrderBy("id ASC").
