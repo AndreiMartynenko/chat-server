@@ -17,23 +17,20 @@ const (
 )
 
 func main() {
-	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second) // Set a timeout of 5 seconds
+	defer cancel()
 
-	// Create a new pool of connections to the database
 	pool, err := pgxpool.Connect(ctx, dbDSN)
 	if err != nil {
 		log.Fatalf("failed to connect to database: %v", err)
 	}
 	defer pool.Close()
 
-	// Generate a random chat id
-	var randomID uint64
-	err = binary.Read(rand.Reader, binary.BigEndian, &randomID)
+	randomID, err := generateRandomID()
 	if err != nil {
-		log.Fatalf("failed to generate random number: %v", err)
+		log.Fatalf("failed to generate random ID: %v", err)
 	}
 
-	// Make a query to add a record to the database chats
 	builderInsert := sq.Insert("chats").
 		PlaceholderFormat(sq.Dollar).
 		Columns("id").
@@ -53,13 +50,6 @@ func main() {
 
 	log.Printf("inserted chat with id: %d", chatID)
 
-	// Make a query to the database to get data from the chats
-	//builderSelect := sq.Select("id").
-	//	From("chats").
-	//	PlaceholderFormat(sq.Dollar).
-	//	OrderBy("id ASC").
-	//	Limit(10)
-
 	builderSelect := sq.Select("id", "created_at", "updated_at").
 		From("chats").
 		PlaceholderFormat(sq.Dollar).
@@ -75,20 +65,18 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to get chat : %v", err)
 	}
-
-	var id int64
-	var createdAt time.Time
-	var updatedAt sql.NullTime
+	defer rows.Close()
 
 	for rows.Next() {
-		err = rows.Scan(&id, &createdAt, &updatedAt)
-		if err != nil {
+		var id int64
+		var createdAt time.Time
+		var updatedAt sql.NullTime
+		if err := rows.Scan(&id, &createdAt, &updatedAt); err != nil {
 			log.Fatalf("failed to scan chat : %v", err)
 		}
 		log.Printf("chat id: %d, created at: %v, updated at: %v", id, createdAt, updatedAt)
 	}
 
-	// Make a query to the database to update the chat
 	builderUpdate := sq.Update("chats").
 		PlaceholderFormat(sq.Dollar).
 		Set("updated_at", time.Now()).
@@ -106,8 +94,6 @@ func main() {
 
 	log.Printf("updated %d rows", res.RowsAffected())
 
-	// Make a query to the database to get updated record for the table chats
-
 	builderSelect = sq.Select("id, created_at, updated_at").
 		From("chats").
 		PlaceholderFormat(sq.Dollar).
@@ -119,10 +105,20 @@ func main() {
 		log.Fatalf("failed to build select query: %v", err)
 	}
 
-	err = pool.QueryRow(ctx, query, args...).Scan(&id, &createdAt, &updatedAt)
+	var createdAt time.Time
+	var updatedAt sql.NullTime
+	err = pool.QueryRow(ctx, query, args...).Scan(&chatID, &createdAt, &updatedAt)
 	if err != nil {
 		log.Fatalf("failed to select chats : %v", err)
 	}
-	log.Printf("chat id: %d, created at: %v, updated at: %v", id, createdAt, updatedAt)
+	log.Printf("chat id: %d, created at: %v, updated at: %v", chatID, createdAt, updatedAt)
+}
 
+func generateRandomID() (uint64, error) {
+	var randomID uint64
+	err := binary.Read(rand.Reader, binary.BigEndian, &randomID)
+	if err != nil {
+		return 0, err
+	}
+	return randomID, nil
 }
