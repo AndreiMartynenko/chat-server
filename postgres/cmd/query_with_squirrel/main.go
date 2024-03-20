@@ -12,9 +12,9 @@ import (
 	sq "github.com/Masterminds/squirrel"
 )
 
-//const (
-//	dbDSN = "host=localhost port=54321 dbname=chats user=chat-user password=chat-password sslmode=disable"
-//)
+const (
+	dbDSN = "host=localhost port=54321 dbname=chats user=chat-user password=chat-password sslmode=disable"
+)
 
 func main() {
 	ctx := context.Background()
