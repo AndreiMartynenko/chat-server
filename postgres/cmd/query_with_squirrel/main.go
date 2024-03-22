@@ -17,6 +17,8 @@ const (
 )
 
 func main() {
+
+	//Connect to the database
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second) // Set a timeout of 5 seconds
 	defer cancel()
 

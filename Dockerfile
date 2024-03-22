@@ -8,7 +8,7 @@ WORKDIR /github.com/AndreiMartynenko/chat-server/source/
 RUN go mod download
 RUN go build -o ./bin/crud_server grpc/cmd/grpc_server/main.go
 
-# 2 step
+
 FROM alpine:latest
 WORKDIR /root/
 
