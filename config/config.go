@@ -13,3 +13,7 @@ type Metrics struct {
 type Server struct {
 	Port int `json:"port" env:"SERVER_PORT" env-default:"50001"`
 }
+
+type Database struct {
+	Username string `json:"username" env:"DB_USERNAME" env-required:"true"`
+}
