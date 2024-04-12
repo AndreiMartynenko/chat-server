@@ -7,6 +7,7 @@ require (
 	github.com/brianvoe/gofakeit v3.18.0+incompatible
 	github.com/fatih/color v1.16.0
 	github.com/jackc/pgx/v4 v4.18.3
+	github.com/joho/godotenv v1.5.1
 	google.golang.org/grpc v1.62.1
 	google.golang.org/protobuf v1.33.0
 )

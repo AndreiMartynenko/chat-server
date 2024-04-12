@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
 const (
@@ -74,4 +76,12 @@ func configPath() string {
 	envConfPath := os.Getenv("CONFIG_PATH")
 
 	return envConfPath
+}
+
+func Load(path string) error {
+	err := godotenv.Load(path)
+	if err != nil {
+		return err
+	}
+	return nil
 }

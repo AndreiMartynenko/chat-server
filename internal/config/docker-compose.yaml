@@ -25,6 +25,8 @@ services:
 
   migrator-local:
     build:
+#      Check the direction of a Dockerfile
+#      . current directory
       context: .
       dockerfile: migration_local.Dockerfile
     restart: on-failure
