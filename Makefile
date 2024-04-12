@@ -33,7 +33,8 @@ copy-to-server:
 	scp service_linux root@45.131.97.121:
 
 docker-build-and-push:
-	docker buildx build --no-cache --platform linux/amd64 -t cr.selcloud.ru/andyregistry/test-server:v0.0.1 .
+	docker buildx build --no-cache --platform linux/amd64
+ -t cr.selcloud.ru/andyregistry/test-server:v0.0.1 .
 	docker login -u token -p CRgAAAAAcXFEjXpkiedFqGl9f-HsvwpBaIddCedO cr.selcloud.ru/andyregistry
 	docker push cr.selcloud.ru/andyregistry/test-server:v0.0.1
 
