@@ -1,5 +1,6 @@
 name: CI
-
+#Check your CI/CD configuration with the following command:
+#  docker-compose -f internal/config/docker-compose.yaml config
 on:
   push:
     branches: [ main, master ]
