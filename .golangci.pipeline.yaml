@@ -1,4 +1,4 @@
-# More info on api_config here: https://golangci-lint.run/usage/configuration/#config-file
+# More info on config here: https://golangci-lint.run/usage/configuration/#config-file
 run:
   concurrency: 8
   timeout: 10m
@@ -27,7 +27,7 @@ linters-settings:
   goconst:
     min-len:         2
     min-occurrences: 2
- 
+
 linters:
   disable-all: true
   enable:
