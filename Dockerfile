@@ -1,19 +1,34 @@
-# 1 step
-FROM golang:1.22-alpine AS builder
+FROM golang:1.22.1-alpine3.19 AS builder
+ARG ENV
 
-# . means current repo
-COPY . /github.com/AndreiMartynenko/chat-server/source/
-WORKDIR /github.com/AndreiMartynenko/chat-server/source/
+RUN apk update && apk upgrade --available && \
+    apk add make && \
+    adduser \
+    --disabled-password \
+    --gecos "" \
+    --home "/nonexistent" \
+    --shell "/sbin/nologin" \
+    --no-create-home \
+    --uid "10001" \
+    "chat-server"
 
-RUN go mod download
-RUN go build -o ./bin/crud_server grpc/cmd/grpc_server/main.go
+WORKDIR /opt/app/
+COPY . .
 
+RUN go mod download && go mod verify
+RUN make build-app ENV=${ENV}
+RUN chown -R chat-server:chat-server ./
 
-FROM alpine:latest
-WORKDIR /root/
+FROM scratch
+ARG CONFIG
 
-# . here is copy everything in the root
-COPY --from=builder /github.com/AndreiMartynenko/chat-server/source/bin/crud_server .
+WORKDIR /opt/app/
+COPY --from=builder /opt/app/bin/main .
+COPY --from=builder /etc/passwd /etc/passwd
+COPY --from=builder /etc/group /etc/group
+COPY --from=builder --chown=chat-server:chat-server /opt/app/${CONFIG} ./config
+COPY --from=builder --chown=chat-server:chat-server /opt/app/tls/ ./tls/
 
-# run our server
-CMD ["./crud_server"]
+USER chat-server:chat-server
+
+CMD ["./main", "-config=./config"]
